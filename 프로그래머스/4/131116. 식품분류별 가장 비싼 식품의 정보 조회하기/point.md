@@ -1,10 +1,6 @@
 # 어려웠던 점
-<처음 쿼리> 
-```SELECT CATEGORY, MAX(PRICE) AS MAX_PRICE, PRODUCT_NAME
-FROM FOOD_PRODUCT
-WHERE CATEGORY IN('과자','국','김치','식용유') 
-GROUP BY CATEGORY
-ORDER BY MAX(PRICE) DESC;```
+<처음 쿼리>   
+```SELECT CATEGORY, MAX(PRICE) AS MAX_PRICE, PRODUCT_NAME FROM FOOD_PRODUCT WHERE CATEGORY IN('과자','국','김치','식용유') GROUP BY CATEGORY ORDER BY MAX(PRICE) DESC;```  
 
 문제점: group by category 후 product_name을 포함한 것
 - 각 카테고리별로 그룹화하는 것은 맞지만, product_name은 각 카테고리 내에서 여러 개가 있을 수 있음. SQL은 그 중 어떤 product_name을 선택해야할지 모르게 되어 랜덤으로 내보내게 됨
