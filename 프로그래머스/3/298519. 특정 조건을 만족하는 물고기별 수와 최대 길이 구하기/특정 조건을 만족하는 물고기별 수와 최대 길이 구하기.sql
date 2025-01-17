@@ -1,0 +1,42 @@
+# 집계를 사용한 필터라면 괜히 서브쿼리와 WITH절 사용하지 말고 최대한 HAVING을 사용하자 ..
+SELECT
+    COUNT(*) AS fish_count,
+    MAX(length) AS max_length,
+    fish_type
+FROM fish_info
+GROUP BY fish_type
+HAVING AVG(IFNULL(length, 10)) >= 33
+ORDER BY fish_type;
+
+
+/*기존코드
+WITH CMHandling AS(
+SELECT
+ID,
+FISHTYPE,
+CASE
+WHEN LENGTH <= 10 THEN 10
+ELSE LENGTH
+END AS LENGTHFILTER
+FROM FISHINFO
+WHERE LENGTH IS NOT NULL
+),
+FilteredFish AS (
+SELECT
+FISHTYPE,
+AVG(LENGTHFILTER) AS AVGLENGTH
+FROM CMHandling
+GROUP BY FISHTYPE
+HAVING AVG(LENGTHFILTER) >= 33
+)
+SELECT
+COUNT(A.ID) AS FISHCOUNT,
+MAX(A.LENGTHFILTER) AS MAXLENGTH,
+A.FISHTYPE
+FROM CMHandling A
+JOIN FilteredFish B
+ON A.FISHTYPE = B.FISHTYPE
+GROUP BY A.FISHTYPE
+ORDER BY A.FISH_TYPE;
+
+문제를 잘 읽지 않음.. 10이하면 NULL로 표기되기 때문에 with절이 필요없음 */
